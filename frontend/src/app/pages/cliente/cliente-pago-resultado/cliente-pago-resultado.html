@@ -1,0 +1,31 @@
+<h1>Resultado del pago</h1>
+
+<div role="status">
+  @if (error()) {
+    <p class="error">{{ error() }}</p>
+  } @else {
+    @switch (estado()) {
+      @case ('confirmando') {
+        <p class="cargando">Estamos confirmando tu pago...</p>
+      }
+      @case ('aprobado') {
+        <p class="aviso">¡Pago aprobado! Gracias por tu reserva.</p>
+      }
+      @case ('rechazado') {
+        <p class="error">El pago no se pudo completar. Puedes intentarlo de nuevo.</p>
+      }
+      @case ('pendiente') {
+        <p class="aviso">
+          Todavía no recibimos la confirmación de Wompi. Revisa "Mis reservas" en unos minutos.
+        </p>
+      }
+    }
+  }
+</div>
+
+<p>
+  <a class="boton" routerLink="/cliente/reservas">Ir a mis reservas</a>
+  @if (estado() === 'rechazado') {
+    <a class="boton secundario" [routerLink]="['/cliente/pagar', reservaId()]">Reintentar pago</a>
+  }
+</p>
