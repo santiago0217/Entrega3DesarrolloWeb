@@ -1,5 +1,6 @@
 package com.example.demo.rest;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.entities.Usuario;
@@ -11,10 +12,12 @@ public class EdicionUsuario {
 
     private final UsuarioService usuarioService;
     private final Validacion validacion;
+    private final PasswordEncoder passwordEncoder;
 
-    public EdicionUsuario(UsuarioService usuarioService, Validacion validacion) {
+    public EdicionUsuario(UsuarioService usuarioService, Validacion validacion, PasswordEncoder passwordEncoder) {
         this.usuarioService = usuarioService;
         this.validacion = validacion;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Usuario aplicar(Usuario destino, Usuario datos) {
@@ -30,10 +33,15 @@ public class EdicionUsuario {
         if (datos.getActivo() != null) {
             destino.setActivo(datos.getActivo());
         }
-        if (datos.getPassword() != null && !datos.getPassword().isBlank()) {
+        boolean passwordNueva = datos.getPassword() != null && !datos.getPassword().isBlank();
+        if (passwordNueva) {
             destino.setPassword(datos.getPassword());
         }
+        // Se valida la contraseña en texto plano (mínimo 4 caracteres) y luego se guarda con BCrypt
         validacion.validar(destino);
+        if (passwordNueva) {
+            destino.setPassword(passwordEncoder.encode(datos.getPassword()));
+        }
         return destino;
     }
 }

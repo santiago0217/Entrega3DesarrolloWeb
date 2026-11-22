@@ -1,3 +1,5 @@
+-- Contraseñas guardadas con BCrypt. Claves en texto plano para pruebas:
+-- admin123 (admins), gerente123, barbero123, cliente123, user (usuario 'user')
 INSERT INTO barberia (nombre, direccion, telefono, horario, activo)
 VALUES ('Barberia la 45', 'Calle 45 #12-30, Bogotá', '6012345678', 'Lunes a Sábado 9:00 - 19:00', true);
 
@@ -5,43 +7,43 @@ INSERT INTO barberia (nombre, direccion, telefono, horario, activo)
 VALUES ('Chamos Barbershop', 'Carrera 7 #80-15, Bogotá', '6019876543', 'Martes a Domingo 10:00 - 20:00', true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Santiago Silva', 'admin@gmail.com', 'admin123', '3001112233', 'ADMINISTRADOR', NULL, true);
+VALUES ('Santiago Silva', 'admin@gmail.com', '$2a$10$WcX8OAnP4pfotQeShmI9A.Pv7X/9wEAXG..lgwX2WtheI63wB2wDi', '3001112233', 'ADMINISTRADOR', NULL, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Santiago Martínez', 'admin2@gmail.com', 'admin123', '3001112244', 'ADMINISTRADOR', NULL, true);
+VALUES ('Santiago Martínez', 'admin2@gmail.com', '$2a$10$WcX8OAnP4pfotQeShmI9A.Pv7X/9wEAXG..lgwX2WtheI63wB2wDi', '3001112244', 'ADMINISTRADOR', NULL, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Laura Restrepo', 'laura@gmail.com', 'gerente123', '3009998877', 'GERENTE', 1, true);
+VALUES ('Laura Restrepo', 'laura@gmail.com', '$2a$10$ep/NMn0mRD/.9UmYrM66VuD0eOEa/BzMh3CD93xMeTxDI7Scri/Iu', '3009998877', 'GERENTE', 1, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Daniel Castro', 'daniel@gmail.com', 'gerente123', '3008887766', 'GERENTE', 2, true);
+VALUES ('Daniel Castro', 'daniel@gmail.com', '$2a$10$ep/NMn0mRD/.9UmYrM66VuD0eOEa/BzMh3CD93xMeTxDI7Scri/Iu', '3008887766', 'GERENTE', 2, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Andrés Gómez', 'andres@gmail.com', 'barbero123', '3002223344', 'BARBERO', 1, true);
+VALUES ('Andrés Gómez', 'andres@gmail.com', '$2a$10$Z1qpJ7mnvaMKJzAhMVRUeusDkI6rOAg4dKZPR8GgFzSmUUGWUAEdK', '3002223344', 'BARBERO', 1, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Felipe Ramírez', 'felipe@gmail.com', 'barbero123', '3003334455', 'BARBERO', 1, true);
+VALUES ('Felipe Ramírez', 'felipe@gmail.com', '$2a$10$Z1qpJ7mnvaMKJzAhMVRUeusDkI6rOAg4dKZPR8GgFzSmUUGWUAEdK', '3003334455', 'BARBERO', 1, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Felipe', 'user', 'user', '3003334455', 'CLIENTE', NULL, true);
+VALUES ('Felipe', 'user', '$2a$10$b4I6Fk18td4awNlQUs4lKuFmgvMI.J/cKGXUikRojahvTq5Zlgsy2', '3003334455', 'CLIENTE', NULL, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Camilo Rojas', 'camilo@gmail.com', 'barbero123', '3004445566', 'BARBERO', 2, true);
+VALUES ('Camilo Rojas', 'camilo@gmail.com', '$2a$10$Z1qpJ7mnvaMKJzAhMVRUeusDkI6rOAg4dKZPR8GgFzSmUUGWUAEdK', '3004445566', 'BARBERO', 2, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Julián Mora', 'julian@gmail.com', 'barbero123', '3005556677', 'BARBERO', 2, true);
+VALUES ('Julián Mora', 'julian@gmail.com', '$2a$10$Z1qpJ7mnvaMKJzAhMVRUeusDkI6rOAg4dKZPR8GgFzSmUUGWUAEdK', '3005556677', 'BARBERO', 2, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Valentina Ruiz', 'valentina@gmail.com', 'cliente123', '3106678899', 'CLIENTE', NULL, true);
+VALUES ('Valentina Ruiz', 'valentina@gmail.com', '$2a$10$Lrz5FWjCohSJ28ulNuntxOeNG/Uf1hOjwQWk04j1cq/ihcQCLiOr6', '3106678899', 'CLIENTE', NULL, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Mateo Cárdenas', 'mateo@gmail.com', 'cliente123', '3117745566', 'CLIENTE', NULL, true);
+VALUES ('Mateo Cárdenas', 'mateo@gmail.com', '$2a$10$Lrz5FWjCohSJ28ulNuntxOeNG/Uf1hOjwQWk04j1cq/ihcQCLiOr6', '3117745566', 'CLIENTE', NULL, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Isabella Ortiz', 'isabella@gmail.com', 'cliente123', '3123312244', 'CLIENTE', NULL, true);
+VALUES ('Isabella Ortiz', 'isabella@gmail.com', '$2a$10$Lrz5FWjCohSJ28ulNuntxOeNG/Uf1hOjwQWk04j1cq/ihcQCLiOr6', '3123312244', 'CLIENTE', NULL, true);
 
 INSERT INTO usuario (nombre, correo, password, telefono, rol, barberia_id, activo)
-VALUES ('Samuel Peña', 'samuel@gmail.com', 'cliente123', '3139986677', 'CLIENTE', NULL, true);
+VALUES ('Samuel Peña', 'samuel@gmail.com', '$2a$10$Lrz5FWjCohSJ28ulNuntxOeNG/Uf1hOjwQWk04j1cq/ihcQCLiOr6', '3139986677', 'CLIENTE', NULL, true);
 
 INSERT INTO espacio (barberia_id, nombre, capacidad, activo)
 VALUES (1, 'Silla 1', 1, true);
