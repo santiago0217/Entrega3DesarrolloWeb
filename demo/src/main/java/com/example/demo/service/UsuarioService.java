@@ -14,7 +14,6 @@ public interface UsuarioService {
     List<Usuario> buscarBarberosDeBarberia(Long barberiaId);
     List<Usuario> buscarTodosLosBarberosDeBarberia(Long barberiaId);
     Usuario buscarPorId(Long id);
-    Usuario autenticar(String correo, String password);
     void registrarCliente(Usuario usuario);
     void guardar(Usuario usuario);
     boolean existeCorreo(String correo);

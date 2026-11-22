@@ -58,11 +58,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario autenticar(String correo, String password) {
-        return repo.findByCorreoAndPasswordAndActivoTrue(correo, password).orElse(null);
-    }
-
-    @Override
     public void registrarCliente(Usuario usuario) {
         usuario.setRol(Rol.CLIENTE);
         usuario.setActivo(true);
