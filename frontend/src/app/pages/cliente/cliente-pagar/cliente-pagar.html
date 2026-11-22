@@ -6,10 +6,27 @@
   }
 </div>
 
-@if (yaPagada()) {
-  <p class="aviso">Esta reserva ya tiene un pago registrado.</p>
+@if (pago()?.estado === 'COMPLETADO') {
+  <p class="aviso">Esta reserva ya está pagada.</p>
 } @else if (reserva(); as reserva) {
-  <app-pago-form [reservaFija]="reserva" (guardado)="pagar($event)" (cancelado)="volver()" />
+  <section>
+    <h2>Pagar en línea</h2>
+    @if (pago()?.estado === 'RECHAZADO') {
+      <p class="error">Tu intento de pago anterior fue rechazado. Puedes intentarlo de nuevo.</p>
+    } @else if (pago()) {
+      <p class="aviso">Tu pago anterior sigue pendiente. Puedes iniciar el pago otra vez.</p>
+    }
+    <button type="button" [disabled]="redirigiendo()" (click)="pagarConWompi()">
+      {{ redirigiendo() ? 'Redirigiendo a Wompi...' : 'Pagar con Wompi' }}
+    </button>
+  </section>
+
+  @if (!pago()) {
+    <section>
+      <h2>Registrar un pago manual</h2>
+      <app-pago-form [reservaFija]="reserva" (guardado)="pagar($event)" (cancelado)="volver()" />
+    </section>
+  }
 } @else if (!error()) {
   <p class="cargando">Cargando...</p>
 }

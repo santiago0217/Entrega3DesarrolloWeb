@@ -1,4 +1,6 @@
-export const API_URL = 'http://localhost:8081/api';
+import { environment } from '../../environments/environment';
+
+export const API_URL = `${environment.apiUrl}/api`;
 
 export function hoy(): string {
   const d = new Date();

@@ -203,6 +203,14 @@ export const routes: Routes = [
           import('./pages/cliente/cliente-reservar/cliente-reservar').then((m) => m.ClienteReservar),
       },
       {
+        path: 'pago/resultado/:reservaId',
+        title: 'Resultado del pago | BarberBook',
+        loadComponent: () =>
+          import('./pages/cliente/cliente-pago-resultado/cliente-pago-resultado').then(
+            (m) => m.ClientePagoResultado,
+          ),
+      },
+      {
         path: 'pagar/:reservaId',
         title: 'Pagar | BarberBook',
         loadComponent: () =>

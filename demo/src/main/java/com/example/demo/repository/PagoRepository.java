@@ -16,6 +16,8 @@ public interface PagoRepository extends JpaRepository<Pago, Integer> {
 
     Optional<Pago> findByReservaId(Long reservaId);
 
+    Optional<Pago> findByReferencia(String referencia);
+
     List<Pago> findByReservaServicioBarberiaId(Long barberiaId);
 
     @Query("SELECT new com.example.demo.dto.ResumenBarberia(p.reserva.servicio.barberia.nombre, SUM(p.monto)) "

@@ -26,6 +26,8 @@ export function mensajeError(error: HttpErrorResponse): string {
       return 'Registro no encontrado';
     case 409:
       return 'No se puede eliminar: el registro está siendo usado por otros datos';
+    case 503:
+      return 'El servicio no está disponible en este momento';
     default:
       return 'Ocurrió un error inesperado';
   }

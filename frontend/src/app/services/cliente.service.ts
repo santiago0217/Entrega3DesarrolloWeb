@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Barberia } from '../models/barberia.model';
-import { Pago, PagoDatos } from '../models/pago.model';
+import { CheckoutRespuesta, Pago, PagoDatos } from '../models/pago.model';
 import { OpcionesReserva, Reserva, ReservaConPago, ReservaDatos } from '../models/reserva.model';
 import { DetalleBarberia } from '../models/resumen.model';
 import { API_URL } from './api';
@@ -43,6 +43,10 @@ export class ClienteService {
 
   cancelar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/reservas/${id}`);
+  }
+
+  pagarConWompi(reservaId: number): Observable<CheckoutRespuesta> {
+    return this.http.post<CheckoutRespuesta>(`${this.url}/pagos/wompi`, { reservaId });
   }
 
   pagar(pago: PagoDatos): Observable<Pago> {

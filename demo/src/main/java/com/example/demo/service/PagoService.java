@@ -8,6 +8,7 @@ import java.util.List;
 public interface PagoService {
     Pago findById(Integer id);
     Pago findByReservaId(Long reservaId);
+    Pago findByReferencia(String referencia);
     Collection<Pago> findAll();
     List<Pago> findByBarberiaId(Long barberiaId);
     List<ResumenBarberia> buscarBarberiasConIngresosMayoresA(Double minimo);

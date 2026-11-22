@@ -17,6 +17,7 @@ import com.example.demo.exception.CorreoDuplicadoException;
 import com.example.demo.exception.EspacioNoDisponibleException;
 import com.example.demo.exception.PagoDuplicadoException;
 import com.example.demo.exception.RecursoNoEncontradoException;
+import com.example.demo.exception.WompiNoConfiguradoException;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
@@ -61,6 +62,11 @@ public class RestExceptionHandler {
             CorreoDuplicadoException.class})
     public ResponseEntity<Map<String, String>> manejarReglaDeNegocio(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("mensaje", ex.getMessage()));
+    }
+
+    @ExceptionHandler(WompiNoConfiguradoException.class)
+    public ResponseEntity<Map<String, String>> manejarWompiNoConfigurado(WompiNoConfiguradoException ex) {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of("mensaje", ex.getMessage()));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

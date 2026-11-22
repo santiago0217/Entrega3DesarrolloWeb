@@ -29,6 +29,11 @@ public class PagoServiceImpl implements PagoService {
     }
 
     @Override
+    public Pago findByReferencia(String referencia) {
+        return pagoRepository.findByReferencia(referencia).orElse(null);
+    }
+
+    @Override
     public Collection<Pago> findAll() {
         return pagoRepository.findAll();
     }

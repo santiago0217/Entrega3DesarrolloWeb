@@ -34,6 +34,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Públicos: login, registro, sesión
                         .requestMatchers("/api/auth/**").permitAll()
+                        // Webhook de Wompi: público, lo protege la firma del aviso (WompiService)
+                        .requestMatchers("/api/pagos/webhook").permitAll()
                         // Compartido: USER (CLIENTE) y ADMIN (ADMINISTRADOR)
                         .requestMatchers("/api/perfil").hasAnyRole("CLIENTE", "ADMINISTRADOR")
                         // Por rol

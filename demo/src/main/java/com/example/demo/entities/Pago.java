@@ -39,4 +39,12 @@ public class Pago {
     @NotBlank(message = "El estado es obligatorio")
     @Column(nullable = false, length = 30)
     private String estado;
+
+    // Código único del intento de pago en Wompi (ej. BB-12-3F2A9C1D). Nulo en pagos manuales.
+    @Column(unique = true, length = 60)
+    private String referencia;
+
+    // Id de la transacción en Wompi, lo escribe el webhook
+    @Column(length = 60)
+    private String transaccionId;
 }

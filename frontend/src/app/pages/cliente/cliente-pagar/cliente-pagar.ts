@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, input, signal } fro
 import { Router } from '@angular/router';
 
 import { PagoForm } from '../../../components/pago-form/pago-form';
-import { PagoDatos } from '../../../models/pago.model';
+import { Pago, PagoDatos } from '../../../models/pago.model';
 import { Reserva } from '../../../models/reserva.model';
 import { ClienteService } from '../../../services/cliente.service';
 import { mensajeError } from '../../../services/mensaje-error';
@@ -21,14 +21,15 @@ export class ClientePagar implements OnInit {
   reservaId = input.required<string>();
 
   protected readonly reserva = signal<Reserva | null>(null);
-  protected readonly yaPagada = signal(false);
+  protected readonly pago = signal<Pago | null>(null);
+  protected readonly redirigiendo = signal(false);
   protected readonly error = signal('');
 
   ngOnInit(): void {
     this.clienteService.reserva(+this.reservaId()).subscribe({
       next: (item) => {
         this.reserva.set(item.reserva);
-        this.yaPagada.set(item.pago !== null);
+        this.pago.set(item.pago);
       },
       error: (err: HttpErrorResponse) => this.error.set(mensajeError(err)),
     });
@@ -39,6 +40,21 @@ export class ClientePagar implements OnInit {
     this.clienteService.pagar(datos).subscribe({
       next: () => this.router.navigate(['/cliente/reservas']),
       error: (err: HttpErrorResponse) => this.error.set(mensajeError(err)),
+    });
+  }
+
+  // Pide el link firmado al backend y lleva al cliente a la página de pago de Wompi
+  pagarConWompi(): void {
+    this.error.set('');
+    this.redirigiendo.set(true);
+    this.clienteService.pagarConWompi(+this.reservaId()).subscribe({
+      next: (respuesta) => {
+        window.location.href = respuesta.url;
+      },
+      error: (err: HttpErrorResponse) => {
+        this.error.set(mensajeError(err));
+        this.redirigiendo.set(false);
+      },
     });
   }
 

@@ -43,8 +43,8 @@
               }
             </td>
             <td class="acciones">
-              @if (!item.pago) {
-                <a class="boton" [routerLink]="['/cliente/pagar', item.reserva.id]">Pagar</a>
+              @if (item.pago?.estado !== 'COMPLETADO') {
+                <a class="boton" [routerLink]="['/cliente/pagar', item.reserva.id]">{{ item.pago ? 'Reintentar pago' : 'Pagar' }}</a>
               }
               <button type="button" class="peligro" (click)="cancelar(item)">Cancelar</button>
             </td>

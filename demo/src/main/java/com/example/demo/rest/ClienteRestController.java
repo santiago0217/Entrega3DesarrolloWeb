@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.DetalleBarberia;
 import com.example.demo.dto.OpcionesReserva;
+import com.example.demo.dto.CheckoutRespuesta;
+import com.example.demo.dto.CheckoutSolicitud;
 import com.example.demo.dto.ReservaConPago;
 import com.example.demo.entities.Barberia;
 import com.example.demo.entities.Pago;
@@ -22,10 +24,12 @@ import com.example.demo.entities.Reserva;
 import com.example.demo.entities.Servicio;
 import com.example.demo.entities.Usuario;
 import com.example.demo.exception.BarberiaInactivaException;
+import com.example.demo.exception.PagoDuplicadoException;
 import com.example.demo.exception.RecursoNoEncontradoException;
 import com.example.demo.service.BarberiaService;
 import com.example.demo.service.EspacioService;
 import com.example.demo.service.PagoService;
+import com.example.demo.service.WompiService;
 import com.example.demo.service.ReservaService;
 import com.example.demo.service.ServicioService;
 import com.example.demo.service.UsuarioService;
@@ -42,18 +46,20 @@ public class ClienteRestController {
     private final UsuarioService usuarioService;
     private final ReservaService reservaService;
     private final PagoService pagoService;
+    private final WompiService wompiService;
     private final Validacion validacion;
 
     public ClienteRestController(BarberiaService barberiaService, ServicioService servicioService,
                                  EspacioService espacioService, UsuarioService usuarioService,
                                  ReservaService reservaService, PagoService pagoService,
-                                 Validacion validacion) {
+                                 WompiService wompiService, Validacion validacion) {
         this.barberiaService = barberiaService;
         this.servicioService = servicioService;
         this.espacioService = espacioService;
         this.usuarioService = usuarioService;
         this.reservaService = reservaService;
         this.pagoService = pagoService;
+        this.wompiService = wompiService;
         this.validacion = validacion;
     }
 
@@ -135,6 +141,35 @@ public class ClienteRestController {
         pago.setEstado(datos.getEstado());
         validacion.validar(pago);
         return ResponseEntity.status(HttpStatus.CREATED).body(pagoService.save(pago));
+    }
+
+    // Pago en línea: crea el pago en estado PENDIENTE y devuelve el link firmado de Wompi.
+    // Quien lo marca como COMPLETADO es el webhook, no esta petición.
+    @PostMapping("/pagos/wompi")
+    public CheckoutRespuesta pagarConWompi(@RequestBody CheckoutSolicitud solicitud, HttpSession sesion) {
+        if (solicitud.reservaId() == null) {
+            throw new RecursoNoEncontradoException("Debe seleccionar una reserva");
+        }
+        Reserva reserva = reservaPropia(solicitud.reservaId(), sesion);
+
+        Pago pago = pagoService.findByReservaId(reserva.getId());
+        if (pago != null && "COMPLETADO".equals(pago.getEstado())) {
+            throw new PagoDuplicadoException("Esta reserva ya está pagada.");
+        }
+        if (pago == null) {
+            pago = new Pago();
+            pago.setReserva(reserva);
+            pago.setMonto(reserva.getServicio().getPrecio());
+        }
+        pago.setMetodoPago("Wompi");
+        pago.setEstado("PENDIENTE");
+        pago.setReferencia(wompiService.nuevaReferencia(reserva.getId()));
+        validacion.validar(pago);
+
+        String url = wompiService.urlCheckout(pago.getReferencia(), wompiService.aCentavos(pago.getMonto()),
+                reserva.getId());
+        pagoService.save(pago);
+        return new CheckoutRespuesta(url, pago.getReferencia());
     }
 
     private Servicio buscarServicio(Integer id) {
